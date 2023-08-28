@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Person } from '../models/person.model';
 import { LoggingService } from '../services/LoggingService.service';
+import { PeopleService } from '../services/PeopleService.service';
 
 @Component({
   selector: 'app-form',
@@ -20,13 +21,20 @@ export class FormComponent {
   private lastNameInput: ElementRef<HTMLInputElement>;
 
 
-  public constructor(private loggingService: LoggingService) {}
+  public constructor(/* private loggingService: LoggingService, */ private peopleService: PeopleService) {
+    this.peopleService.greet.subscribe(
+      (index: number) => {
+        alert("Index: " + index);
+      }
+    )
+  }
   
   
   public propagatePersonNoArgs(): void {
     const newPerson: Person = new Person(this.firstNameInput.nativeElement.value, this.lastNameInput.nativeElement.value);
-    this.loggingService.logString(`This person has been propagated: ${newPerson}`);
-    this.createdPerson.emit(newPerson);
+    // this.loggingService.logString(`This person has been propagated: ${newPerson}`);
+    // this.createdPerson.emit(newPerson);
+    this.peopleService.pushPerson(newPerson);
   }
 
   public propagatePerson(person: Person): void {

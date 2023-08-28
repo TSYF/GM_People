@@ -7,23 +7,23 @@ import { PeopleService } from '../services/PeopleService.service';
   selector: 'app-people',
   templateUrl: './people.component.html',
   styleUrls: ['./people.component.scss'],
-  providers: [PeopleService]
+  // providers: [PeopleService]
 })
 export class PeopleComponent implements OnInit {
   private people: Person[] = [];
 
-  public constructor(private loggingService: LoggingService, private peopleService: PeopleService) {}
+  public constructor(/* private loggingService: LoggingService, */ private peopleService: PeopleService) {}
 
   public ngOnInit() {
     this.people = this.peopleService.getPeople();
   }
 
-  public addPerson(person: Person): Person[] {
+  /* public addPerson(person: Person): Person[] {
     this.peopleService.pushPerson({ ...person });
     this.loggingService.logString("A person has been added to the list.");
     this.loggingService.log(person);
     return this.people;
-  }
+  } */
 
   public getPeople(): Person[] {
     return this.people;

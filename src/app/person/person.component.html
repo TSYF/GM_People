@@ -1,3 +1,10 @@
 <li class="people-list__item">
     {{ index + 1 }} {{ person.firstName }} {{ person.lastName }}
+    <button
+        class="btn btn-info"
+        type="submit"
+        (click)="emitGreeting()"
+    >
+        Edit
+    </button>
 </li>

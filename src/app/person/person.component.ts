@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { Person } from '../models/person.model';
+import { PeopleService } from '../services/PeopleService.service';
 
 @Component({
   selector: 'app-person',
@@ -12,4 +13,10 @@ export class PersonComponent {
 
   @Input()
   public index: number;
+
+  public constructor(private peopleService: PeopleService) {}
+
+  public emitGreeting(): void {
+    this.peopleService.greet.emit(this.index);
+  }
 }
