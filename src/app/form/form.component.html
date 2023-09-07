@@ -1,11 +1,10 @@
 <form
     action="javascript:0"
-    class="people-list__form form"
-    (submit)="propagatePersonNoArgs()"
+    class="people-list__form form item"
+    (submit)="addPerson(tempPerson)"
 >
     <!-- (submit)="propagatePersonByReference(firstNameInput, lastNameInput)" -->
     <!-- (submit)="propagatePerson(tempPerson)" -->
-    <div class="mb-3 form-group row">
         <input
             type="text"
             class="form-control col"
@@ -13,8 +12,8 @@
             id="fname"
             placeholder="First name"
             #firstNameInput
+            [(ngModel)]="tempPerson.firstName"
         >
-        <!-- [(ngModel)]="tempPerson.firstName" -->
         <input
             type="text"
             class="form-control col offset-1"
@@ -22,12 +21,8 @@
             id="lname"
             placeholder="Last name"
             #lastNameInput
+            [(ngModel)]="tempPerson.lastName"
         >
-        <!-- [(ngModel)]="tempPerson.lastName" -->
 
-    <button
-        type="submit"
-        class="btn btn-primary col-1 offset-1"
-    >Add</button>
-    </div>
+    <button type="submit">+</button>
 </form>

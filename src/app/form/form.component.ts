@@ -29,6 +29,12 @@ export class FormComponent {
     )
   }
   
+
+  public addPerson(person: Person): void {
+    // this.people.push({...person});
+    // return this.people;
+    this.peopleService.pushPerson({ ...person });
+  }
   
   public propagatePersonNoArgs(): void {
     const newPerson: Person = new Person(this.firstNameInput.nativeElement.value, this.lastNameInput.nativeElement.value);

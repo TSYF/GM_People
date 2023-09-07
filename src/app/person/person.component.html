@@ -1,10 +1,7 @@
-<li class="people-list__item">
-    {{ index + 1 }} {{ person.firstName }} {{ person.lastName }}
-    <button
-        class="btn btn-info"
-        type="submit"
+<div class="item">
+    <input
+        type="checkbox"
         (click)="emitGreeting()"
     >
-        Edit
-    </button>
-</li>
+    <p>{{ index + 1 }} {{ person.firstName }} {{ person.lastName }}</p>
+</div>

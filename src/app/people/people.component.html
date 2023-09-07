@@ -1,20 +1,16 @@
-<div class="container">
-    <div class="row">
-        <article class="col">
-            <h1>People List</h1>
-            <hr>
-            <section class="people-list">
-                <app-form
-                />
-                <!-- (createdPerson)="addPerson($event)" -->
-                <hr>
-                <section class="people-list__section--list">
-                    <ul class="people-list__list">
-                        <app-person *ngFor="let personData of getPeople(); let i = index" [person]="personData" [index]="i"></app-person>
-                    </ul>
-                </section>
-            </section>
-        </article>
-    </div>
-</div>
+<section class="box" id="heading">
+    <h1>People List</h1>
+</section>
 
+<section class="box">
+    <app-form/>
+</section>
+
+<section class="box people-list">
+    <!-- (createdPerson)="addPerson($event)" -->
+    <app-person
+        *ngFor="let personData of getPeople(); let i = index"
+        [person]="personData"
+        [index]="i"
+    ></app-person>
+</section>
