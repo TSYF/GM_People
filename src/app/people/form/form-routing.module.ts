@@ -5,9 +5,13 @@ import { FormComponent } from './form.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'add', 
     component: FormComponent
-  }
+  },
+  {
+      path: ':id', 
+      component: FormComponent
+  },
 ]
 
 

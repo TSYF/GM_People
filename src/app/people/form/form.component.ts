@@ -15,7 +15,8 @@ export class FormComponent implements OnInit {
   public createdPerson: EventEmitter<Person> = new EventEmitter<Person>();
 
   public tempPerson: Person = Person.createEmpty(); // Initialized because of strictPropertyInitialization
-  public index?: number;
+  public index: number;
+  private editionMode: number;
 
   @ViewChild("firstNameInput")
   private firstNameInput: ElementRef<HTMLInputElement>;
@@ -37,8 +38,9 @@ export class FormComponent implements OnInit {
   }
   
   public ngOnInit(): void {
-    this.index = this.route.snapshot.params["id"];
-    if (this.index !== undefined) {
+    this.index        = this.route.snapshot.params["id"];
+    this.editionMode  = +this.route.snapshot.queryParams["editionMode"];
+    if (this.index  !== undefined && this.editionMode === 1) {
       this.tempPerson = this.peopleService.findPerson(this.index);
     }
   }
@@ -46,7 +48,7 @@ export class FormComponent implements OnInit {
   public addPerson(person: Person): void {
     // this.people.push({...person});
     // return this.people;
-    if (this.index === undefined) {
+    if (!this.editionMode) {
       this.peopleService.pushPerson({ ...person });
     } else {
       this.peopleService.editPerson(this.index, { ...person });
@@ -55,7 +57,7 @@ export class FormComponent implements OnInit {
   }
 
   public deletePerson(): void {
-    if (this.index !== undefined) {
+    if (this.editionMode === 1) {
       this.peopleService.deletePerson(this.index);
     }
     this.router.navigate(["people"]);

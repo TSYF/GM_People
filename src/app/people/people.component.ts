@@ -3,6 +3,7 @@ import { Person } from '../models/person.model';
 import { LoggingService } from '../services/LoggingService.service';
 import { PeopleService } from '../services/PeopleService.service';
 import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-people',
@@ -19,8 +20,13 @@ export class PeopleComponent implements OnInit {
     private router:        Router
   ) {}
 
-  public ngOnInit() {
-    this.people = this.peopleService.getPeople();
+  public async ngOnInit() {
+    try {
+      this.people = await this.peopleService.loadPeople();
+    } catch (error) {
+      console.log("PeopleComponent: ngOnInit");
+      console.error(error);
+    }
   }
 
   /* public addPerson(person: Person): Person[] {

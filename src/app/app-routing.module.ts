@@ -11,16 +11,12 @@ const routes: Routes = [
   },
   {
     path: 'people',
-    component: PeopleComponent
+    loadChildren: () => import("./people/people.module").then(m => m.PeopleModule)
   },
   {
-    path: 'people/add', 
-    loadChildren: () => import('./people/form/form.module').then(m => m.FormModule)
-  },
-  {
-    path: 'people/:id', 
-    loadChildren: () => import('./people/form/form.module').then(m => m.FormModule)
-  },
+    path: "**",
+    loadChildren: () => import('./error/error.module').then(m => m.ErrorModule)
+  }
 ]
 
 
