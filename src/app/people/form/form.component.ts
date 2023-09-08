@@ -1,7 +1,8 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import { Person } from '../models/person.model';
-import { LoggingService } from '../services/LoggingService.service';
-import { PeopleService } from '../services/PeopleService.service';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Person } from '../../models/person.model';
+import { LoggingService } from '../../services/LoggingService.service';
+import { PeopleService } from '../../services/PeopleService.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-form',
@@ -9,11 +10,12 @@ import { PeopleService } from '../services/PeopleService.service';
   styleUrls: ['./form.component.scss'],
   // providers: [LoggingService] //* No longer needed since it's declared on app.module.ts
 })
-export class FormComponent {
+export class FormComponent implements OnInit {
   @Output()
   public createdPerson: EventEmitter<Person> = new EventEmitter<Person>();
 
   public tempPerson: Person = Person.createEmpty(); // Initialized because of strictPropertyInitialization
+  public index?: number;
 
   @ViewChild("firstNameInput")
   private firstNameInput: ElementRef<HTMLInputElement>;
@@ -21,7 +23,12 @@ export class FormComponent {
   private lastNameInput: ElementRef<HTMLInputElement>;
 
 
-  public constructor(/* private loggingService: LoggingService, */ private peopleService: PeopleService) {
+  public constructor(
+    /* private loggingService: LoggingService, */
+    private peopleService: PeopleService,
+    private router:        Router,
+    private route:         ActivatedRoute
+  ) {
     this.peopleService.greet.subscribe(
       (index: number) => {
         alert("Index: " + index);
@@ -29,11 +36,29 @@ export class FormComponent {
     )
   }
   
+  public ngOnInit(): void {
+    this.index = this.route.snapshot.params["id"];
+    if (this.index !== undefined) {
+      this.tempPerson = this.peopleService.findPerson(this.index);
+    }
+  }
 
   public addPerson(person: Person): void {
     // this.people.push({...person});
     // return this.people;
-    this.peopleService.pushPerson({ ...person });
+    if (this.index === undefined) {
+      this.peopleService.pushPerson({ ...person });
+    } else {
+      this.peopleService.editPerson(this.index, { ...person });
+    }
+    this.router.navigate(["people"]);
+  }
+
+  public deletePerson(): void {
+    if (this.index !== undefined) {
+      this.peopleService.deletePerson(this.index);
+    }
+    this.router.navigate(["people"]);
   }
   
   public propagatePersonNoArgs(): void {

@@ -4,21 +4,24 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { PeopleComponent } from './people/people.component';
 import { FormsModule } from '@angular/forms';
-import { PersonComponent } from './person/person.component';
-import { FormComponent } from './form/form.component';
+import { PersonComponent } from './people/person/person.component';
+import { FormComponent } from './people/form/form.component';
 import { LoggingService } from './services/LoggingService.service';
 import { PeopleService } from './services/PeopleService.service';
+import { RouterModule } from '@angular/router';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     PeopleComponent,
-    PersonComponent,
-    FormComponent
+    PersonComponent
   ],
   imports: [
     BrowserModule,
-    FormsModule
+    FormsModule,
+    RouterModule,
+    AppRoutingModule,
   ],
   providers: [
     LoggingService,

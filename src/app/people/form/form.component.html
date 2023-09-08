@@ -1,0 +1,31 @@
+<article class="box">
+    <form
+        action="javascript:0"
+        class="people-list__form form item"
+        (submit)="addPerson(tempPerson)"
+    >
+        <!-- (submit)="propagatePersonByReference(firstNameInput, lastNameInput)" -->
+        <!-- (submit)="propagatePerson(tempPerson)" -->
+            <input
+                type="text"
+                class="form-control col"
+                name="fname"
+                id="fname"
+                placeholder="First name"
+                #firstNameInput
+                [(ngModel)]="tempPerson.firstName"
+            >
+            <input
+                type="text"
+                class="form-control col offset-1"
+                name="lname"
+                id="lname"
+                placeholder="Last name"
+                #lastNameInput
+                [(ngModel)]="tempPerson.lastName"
+            >
+    
+        <button type="submit">+</button>
+        <button *ngIf="this.index !== undefined" style="cursor:pointer;background-color:red;" (click)="deletePerson()">-</button>
+    </form>
+</article>

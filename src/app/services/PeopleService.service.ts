@@ -16,7 +16,22 @@ export class PeopleService {
     return this.people;
   }
 
-  public getPeople() {
+  public getPeople(): Person[] {
     return this.people;
+  }
+
+  public findPerson(index: number): Person {
+    const person: Person = this.people[index];
+    return person;
+  }
+
+  public editPerson(index: number, person: Person): void {
+    const oldPerson = this.people[index];
+    oldPerson.firstName = person.firstName;
+    oldPerson.lastName = person.lastName;
+  }
+
+  public deletePerson(index: number): void {
+    this.people.splice(index, 1);
   }
 }
