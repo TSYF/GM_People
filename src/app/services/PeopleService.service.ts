@@ -13,7 +13,7 @@ export class PeopleService {
 
   public constructor(
     private loggingService: LoggingService,
-    private dataService:   DataService
+    private dataService:    DataService
   ) {}
 
   public async loadPeople(): Promise<Person[]> {
@@ -24,8 +24,7 @@ export class PeopleService {
     try {
       people = await firstValueFrom<Person[]>(people$);
       people$.subscribe((receivedPeople: Person[]) => {
-        console.log("Observable Subscription");
-        this.people = receivedPeople;
+        this.people = receivedPeople ?? [];
         this.peopleChanged.emit(receivedPeople);
       });
       this.people = people;
@@ -53,17 +52,32 @@ export class PeopleService {
   }
 
   public findPerson(index: number): Person {
-    const person: Person = this.people[index];
+    const person: Person = {...this.people[index]};
     return person;
   }
 
   public editPerson(index: number, person: Person): void {
-    const oldPerson = this.people[index];
-    oldPerson.firstName = person.firstName;
-    oldPerson.lastName = person.lastName;
+    this.dataService.modifyPerson(index, person)
+      .subscribe((fetchedPerson: Person) => {
+        this.people[index] = fetchedPerson;
+        this.peopleChanged.emit(this.people);
+      });
+    
   }
 
   public deletePerson(index: number): void {
-    this.people.splice(index, 1);
+    // this.dataService.deletePerson(index)
+    //   .subscribe((person: Person) => {
+    //     this.people.splice(index, 1)
+    //   });
+    this.people.splice(index, 1)
+    this.refreshPeople();
+  }
+
+  public refreshPeople(): Observable<Person[]> | boolean | void {
+    if (this.people !== undefined) {
+      return this.dataService.savePeople(this.people);
+    }
+    return false;
   }
 }

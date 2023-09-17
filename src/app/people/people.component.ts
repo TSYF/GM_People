@@ -18,11 +18,14 @@ export class PeopleComponent implements OnInit {
     /* private loggingService: LoggingService, */
     private peopleService: PeopleService,
     private router:        Router
-  ) {}
+  ) {
+    this.peopleService.peopleChanged
+      .subscribe(people => this.people = people);
+  }
 
-  public async ngOnInit() {
+  public ngOnInit() {
     try {
-      this.people = await this.peopleService.loadPeople();
+      this.peopleService.loadPeople();
     } catch (error) {
       console.log("PeopleComponent: ngOnInit");
       console.error(error);
